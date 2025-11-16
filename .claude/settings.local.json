@@ -24,7 +24,9 @@
       "Bash(git branch:*)",
       "Bash(git push:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nClean up repository: Remove unnecessary documentation files\n\nRemoved redundant markdown documentation files, keeping only README.md:\n- Removed: ARCHITECTURE.md, CHECKLIST.md, DEMO.md\n- Removed: NEXT_STEPS.md, PITCH_SCRIPT.md, PITCH_SUMMARY.md\n- Removed: PROJECT_SUMMARY.md, QUICK_START.md, README_SIMPLE.md\n- Removed: SCRIPT_GUIDE.md, START_HERE.md\n- Kept: README.md (main documentation)\n\nThis streamlines the repository and keeps only essential documentation.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)"
     ],
     "deny": [],
     "ask": []

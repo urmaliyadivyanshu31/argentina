@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/index.js"
+    }
+  ],
+  "env": {
+    "PORT": "3001",
+    "HYPEREVM_RPC_URL": "@hyperevm_rpc_url",
+    "CHAIN_ID": "998",
+    "PRIVATE_KEY": "@private_key",
+    "SAFE_ADDRESS": "@safe_address",
+    "DISTRIBUTOR_CONTRACT_ADDRESS": "@distributor_contract_address"
+  }
+}
