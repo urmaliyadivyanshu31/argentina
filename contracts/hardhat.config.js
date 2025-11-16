@@ -1,4 +1,5 @@
-// Simplified config - removed toolbox for quick compile
+// Hardhat configuration for contract deployment
+require("@nomicfoundation/hardhat-toolbox");
 require('dotenv').config({ path: '../.env' });
 
 /** @type import('hardhat/config').HardhatUserConfig */

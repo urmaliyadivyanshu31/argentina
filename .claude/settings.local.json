@@ -18,7 +18,11 @@
       "Bash(findstr:*)",
       "Bash(taskkill:*)",
       "Bash(PORT=3002 npm run dev:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(test:*)",
+      "Bash(git remote:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
