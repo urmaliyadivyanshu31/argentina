@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(git init:*)",
+      "Bash(chmod:*)",
+      "Bash(cat:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx hardhat:*)",
+      "Bash(=9.1.0 chai@^4.2.0 hardhat-gas-reporter@^1.0.8 solidity-coverage@^0.8.1 ts-node@)",
+      "Bash(=8.0.0 typechain@^8.3.0 typescript@)",
+      "Bash(=4.5.0)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(node src/index.js:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(PORT=3002 npm run dev:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
