@@ -1,129 +1,198 @@
 'use client';
 
-import { useState } from 'react';
-import UploadCSV from '../components/UploadCSV';
-import DistributionsList from '../components/DistributionsList';
-import SafeInfo from '../components/SafeInfo';
-import { Package, Shield, Zap, Users } from 'lucide-react';
+import { useState, useContext, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import DistributionUploader from '../components/DistributionUploader';
+import DistributionsTable from '../components/DistributionsTable';
+import SafePanel from '../components/SafePanel';
+import AnalyticsPanel from '../components/AnalyticsPanel';
+import CommandPalette from '../components/CommandPalette';
+import { CommandPaletteContext } from '../contexts/CommandPaletteContext';
 
 export default function Home() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const { setIsCommandPaletteOpen } = useContext(CommandPaletteContext);
 
   const handleUploadSuccess = () => {
     setRefreshTrigger(prev => prev + 1);
   };
 
+  // Global keyboard shortcut for Command Palette
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [setIsCommandPaletteOpen]);
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      {/* Hero Header */}
-      <header className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm">
-              <Package size={40} />
-            </div>
+    <div className="min-h-screen bg-white">
+      <CommandPalette onRefresh={() => setRefreshTrigger(prev => prev + 1)} />
+
+      {/* Header */}
+      <header className="border-b-4 border-black bg-white">
+        <div className="container py-12">
+          <div className="flex items-start justify-between mb-12">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                LoopDrop Distributor
+              <h1 className="text-display mb-3 font-black tracking-tight">
+                LOOPDROP
+                <br />
+                DISTRIBUTOR
               </h1>
-              <p className="text-xl text-indigo-100 mt-2">
-                Secure batch token distribution with Safe multisig
+              <p className="text-body text-gray-700 max-w-md">
+                Automated token distribution with Safe multisig integration
               </p>
             </div>
+
+            <button
+              onClick={() => setIsCommandPaletteOpen(true)}
+              className="btn btn-secondary flex items-center gap-2"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <span>⌘K</span>
+            </button>
           </div>
 
-          {/* Stats Bar */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-            <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <div className="flex items-center gap-3">
-                <Zap className="text-yellow-300" size={24} />
-                <div>
-                  <p className="text-3xl font-bold">60%+</p>
-                  <p className="text-sm text-indigo-100">Gas Savings</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <div className="flex items-center gap-3">
-                <Shield className="text-green-300" size={24} />
-                <div>
-                  <p className="text-3xl font-bold">100%</p>
-                  <p className="text-sm text-indigo-100">Secure</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-              <div className="flex items-center gap-3">
-                <Users className="text-blue-300" size={24} />
-                <div>
-                  <p className="text-3xl font-bold">500</p>
-                  <p className="text-sm text-indigo-100">Max Recipients</p>
-                </div>
-              </div>
-            </div>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="border-2 border-black p-6 bg-white hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-[8px_8px_0_#000] transition-all"
+            >
+              <p className="text-micro text-gray-600 mb-2 font-bold">GAS SAVINGS</p>
+              <p className="text-headline font-black">60%+</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="border-2 border-black p-6 bg-white hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-[8px_8px_0_#000] transition-all"
+            >
+              <p className="text-micro text-gray-600 mb-2 font-bold">MAX BATCH</p>
+              <p className="text-headline font-black">500</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="border-2 border-black p-6 bg-white hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-[8px_8px_0_#000] transition-all"
+            >
+              <p className="text-micro text-gray-600 mb-2 font-bold">SECURITY</p>
+              <p className="text-headline font-black">SAFE</p>
+            </motion.div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Upload & Safe Info */}
-          <div className="lg:col-span-1 space-y-8">
-            <UploadCSV onSuccess={handleUploadSuccess} />
-            <SafeInfo />
+      <main className="container py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left Column - Main Content (70%) */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+            className="lg:col-span-8 space-y-8"
+          >
+            <DistributionUploader onSuccess={handleUploadSuccess} />
+            <DistributionsTable refreshTrigger={refreshTrigger} />
+          </motion.div>
+
+          {/* Right Sidebar (30%) */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            className="lg:col-span-4 space-y-8"
+          >
+            <SafePanel />
+            <AnalyticsPanel refreshTrigger={refreshTrigger} />
+          </motion.div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t-8 border-black mt-32 bg-white">
+        <div className="container py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div>
+              <h3 className="text-headline font-black mb-4 tracking-tight">
+                LOOPDROP
+              </h3>
+              <p className="text-small text-gray-700 leading-relaxed">
+                Automated token distribution system with Safe multisig integration.
+                Built for security, efficiency, and scale.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-micro font-bold mb-4 uppercase tracking-wider text-gray-600">
+                FEATURES
+              </h4>
+              <ul className="space-y-2 text-small text-gray-700">
+                <li className="font-medium">→ Batch Token Distribution</li>
+                <li className="font-medium">→ Safe Multisig Security</li>
+                <li className="font-medium">→ 60%+ Gas Savings</li>
+                <li className="font-medium">→ CSV Upload Support</li>
+                <li className="font-medium">→ Complete Audit Trail</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-micro font-bold mb-4 uppercase tracking-wider text-gray-600">
+                TECH STACK
+              </h4>
+              <ul className="space-y-2 text-small text-gray-700">
+                <li className="font-medium">→ Next.js 14</li>
+                <li className="font-medium">→ Safe Protocol Kit</li>
+                <li className="font-medium">→ Solidity Smart Contracts</li>
+                <li className="font-medium">→ HyperEVM Network</li>
+                <li className="font-medium">→ Framer Motion</li>
+              </ul>
+            </div>
           </div>
 
-          {/* Right Column - Distributions List */}
-          <div className="lg:col-span-2">
-            <DistributionsList refreshTrigger={refreshTrigger} />
-          </div>
-        </div>
-
-        {/* Features Section */}
-        <div className="mt-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl shadow-2xl p-8 md:p-12 text-white">
-          <h3 className="text-3xl font-bold mb-8 text-center">How It Works</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                <span className="text-3xl font-bold">1</span>
+          <div className="border-t-4 border-black pt-8">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-6">
+                <p className="text-small font-bold text-gray-900">
+                  LOOPING COLLECTIVE
+                </p>
+                <div className="w-1 h-4 bg-black"></div>
+                <p className="text-small text-gray-600">
+                  Argentina Hack 2025
+                </p>
               </div>
-              <h4 className="font-bold mb-2 text-lg">Upload CSV</h4>
-              <p className="text-indigo-100 text-sm">Download template and fill with recipient addresses</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                <span className="text-3xl font-bold">2</span>
+              <div className="flex items-center gap-4">
+                <div className="border-2 border-black px-4 py-2 bg-white">
+                  <p className="text-micro font-bold uppercase tracking-wider">
+                    HACKATHON BUILD
+                  </p>
+                </div>
               </div>
-              <h4 className="font-bold mb-2 text-lg">Validate</h4>
-              <p className="text-indigo-100 text-sm">System checks addresses, amounts, and duplicates</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                <span className="text-3xl font-bold">3</span>
-              </div>
-              <h4 className="font-bold mb-2 text-lg">Propose to Safe</h4>
-              <p className="text-indigo-100 text-sm">Create multisig transaction for team approval</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-                <span className="text-3xl font-bold">4</span>
-              </div>
-              <h4 className="font-bold mb-2 text-lg">Execute</h4>
-              <p className="text-indigo-100 text-sm">Distribute tokens to all recipients instantly</p>
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="mt-12 text-center text-gray-600">
-          <p className="text-sm">
-            Built for <span className="font-semibold text-indigo-600">Looping Collective</span> •
-            Powered by <span className="font-semibold text-purple-600">Safe Multisig</span> •
-            Secured by <span className="font-semibold text-pink-600">Smart Contracts</span>
-          </p>
-        </div>
-      </div>
-    </main>
+      </footer>
+    </div>
   );
 }
